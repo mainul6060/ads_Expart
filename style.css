@@ -549,6 +549,15 @@ body {
     gap: 8px;
 }
 
+/* WhatsApp-specific styles added */
+.success-icon .fa-whatsapp {
+    color: #25D366;
+}
+
+.footer-contact .fa-whatsapp {
+    color: #25D366;
+}
+
 /* Thank You Message */
 .thank-you-message {
     display: none;
@@ -563,7 +572,6 @@ body {
 
 .success-icon {
     font-size: 5rem;
-    color: var(--success-color);
     margin-bottom: 30px;
     animation: scaleIn 0.8s ease-out;
 }
