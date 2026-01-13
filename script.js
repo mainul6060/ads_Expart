@@ -22,10 +22,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 500);
     });
     
-    // Form validation and submission
+    // Form validation and WhatsApp submission
     const orderForm = document.getElementById('order-form');
     const thankYouMessage = document.getElementById('thank-you');
     const newOrderBtn = document.getElementById('new-order-btn');
+    
+    // WhatsApp number
+    const whatsappNumber = '+8801866664606';
     
     orderForm.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -35,15 +38,39 @@ document.addEventListener('DOMContentLoaded', function() {
             // Show loading state on submit button
             const submitBtn = orderForm.querySelector('.submit-btn');
             const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Preparing WhatsApp...';
             submitBtn.disabled = true;
             
-            // Simulate form submission with FormSubmit.co
+            // Get form data
+            const formData = {
+                fullname: document.getElementById('fullname').value.trim(),
+                whatsapp: document.getElementById('whatsapp').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                service: document.getElementById('service').value,
+                businessInfo: document.getElementById('business-info').value.trim()
+            };
+            
+            // Get service label
+            const serviceSelect = document.getElementById('service');
+            const serviceText = serviceSelect.options[serviceSelect.selectedIndex].text;
+            
+            // Create WhatsApp message
+            const message = `*New Facebook Ads Order - Mainul Hasan*%0A%0A` +
+                           `*Name:* ${encodeURIComponent(formData.fullname)}%0A` +
+                           `*WhatsApp:* ${encodeURIComponent(formData.whatsapp)}%0A` +
+                           `*Email:* ${encodeURIComponent(formData.email)}%0A` +
+                           `*Service Needed:* ${encodeURIComponent(serviceText)}%0A` +
+                           `*Business Info/Idea:*%0A${encodeURIComponent(formData.businessInfo)}%0A%0A` +
+                           `_Sent via Mainul Hasan's Facebook Ads Website_`;
+            
+            // Create WhatsApp URL
+            const whatsappUrl = `https://wa.me/${whatsappNumber.replace(/\D/g, '')}?text=${message}`;
+            
+            // Open WhatsApp in new tab after short delay
             setTimeout(() => {
-                // In a real implementation, this would be the actual form submission
-                // For this demo, we'll show the thank you message
+                window.open(whatsappUrl, '_blank');
                 
-                // Hide the form and show thank you message
+                // Show thank you message
                 orderForm.style.display = 'none';
                 thankYouMessage.style.display = 'block';
                 
@@ -59,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Reset floating labels
                 resetFloatingLabels();
-            }, 1500);
+            }, 1000);
         }
     });
     
